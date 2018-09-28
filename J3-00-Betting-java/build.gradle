@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+}
+
+group 'ua.univer'
+apply plugin: 'application'
+
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    maven() {
+        url "http://mvnrepository.com/artifact/"
+    }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile 'org.postgresql:postgresql:42.2.5'
+    compile 'javax.xml:jaxb-api:2.1'
+}
+
+mainClassName = 'ua.univer.main.Main'
