@@ -3,7 +3,22 @@ package ua.univer.io;
 import java.sql.*;
 
 public final class CreateTable {	
-	
+
+    public static void getItem(){
+        CallableStatement statement;
+
+        try ( Connection connection = PSQLConnector.getConnection();)
+        {
+            statement = connection.prepareCall("select items()");
+            System.out.println("Callable:");
+            statement.execute();
+            System.out.println(statement.getString(1));
+        }
+        catch (SQLException e)
+        {
+        }
+    }
+
 	public static void createTable(String str) {
 		// TODO Auto-generated method stub		
 		try ( Connection connection = PSQLConnector.getConnection();
