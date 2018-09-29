@@ -4,6 +4,8 @@ import ua.univer.io.CreateTable;
 import ua.univer.io.PSQLConnector;
 
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class MainTest {
@@ -26,6 +28,8 @@ public class MainTest {
         for (Connection con : c) System.out.println(con.toString());
         System.out.println();
         driver.exit();
+        System.out.println(" - ");
+        for (Connection con : c) System.out.println(con.toString());
 
     }
 

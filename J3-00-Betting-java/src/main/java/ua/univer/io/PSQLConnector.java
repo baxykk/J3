@@ -11,7 +11,6 @@ public final class PSQLConnector {
 	private static final String user = "postgres";
 	private static final String passw = "Esf123";
 	private static ArrayList<Connection> pool = new ArrayList<>(10);
-	private static int lastCon;
 
     public PSQLConnector() {
         loadDriver();
@@ -30,24 +29,25 @@ public final class PSQLConnector {
             for (int i = 0; i < 10; i++) {
                 pool.add(DriverManager.getConnection(db, user, passw));
             }
-            lastCon = 9;
         } catch (SQLException e) {}
 
     }
 
 	public static synchronized Connection getConnection() {
-        return pool.get(lastCon--);
+        Connection c = pool.get(pool.size()-1);
+        pool.remove(pool.size()-1);
+        return c;
 	}
 
-    public synchronized void closeConnection(Connection con) {
+    public static synchronized void closeConnection(Connection con) {
         pool.add(con);
     }
 
     public void exit() {
-        if (lastCon == 9)
+        if (pool.size() == 10)
             try {
-                for (int i = 0; i <= lastCon; i++)
-                    pool.get(i).close();
+                while (pool.size() > 0)
+                    getConnection().close();
             }
             catch (java.sql.SQLException e){}
     }
